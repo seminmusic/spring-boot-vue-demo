@@ -2,5 +2,5 @@
 
 <jboss-web>
 	<!-- <context-root>/</context-root> -->
-	<!-- <context-root>direct-pay-web-1.0</context-root> -->
+	<context-root>spring-and-vue</context-root>
 </jboss-web>
