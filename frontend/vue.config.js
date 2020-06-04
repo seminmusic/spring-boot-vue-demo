@@ -4,6 +4,7 @@ module.exports = {
     assetsDir: "static",
     publicPath: "/spring-and-vue/",
     devServer: {
-        port: 3001
+        port: 3001,
+        open: true
     }
 };
