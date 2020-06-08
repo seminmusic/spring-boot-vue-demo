@@ -16,8 +16,13 @@ module.exports = {
         "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
         "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
         "vue/max-attributes-per-line": "off",
-        quotes: ["error", "double"],
-        indent: ["error", 4],
-        semi: ["error", "always"]
+        "quotes": ["error", "double"],
+        "indent": ["error", 4],
+        "semi": ["error", "always"],
+        "space-before-function-paren": ["error", {
+            "anonymous": "always",
+            "named": "never",
+            "asyncArrow": "always"
+        }]
     }
 }
