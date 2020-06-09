@@ -3,18 +3,7 @@
 </template>
 
 <script>
-import TestService from "@/services/test-service";
-
 export default {
-    name: "Home",
-    created() {
-        TestService.getTestData()
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
+    name: "Home"
 };
 </script>
