@@ -6,5 +6,9 @@ import java.util.List;
 
 public interface CarService
 {
-    List<Car> getAllCars();
+    List<Car> getCars();
+    Car getCar(int id);
+    void deleteCar(int id);
+    Car createCar(Car car);
+    Car updateCar(int id, Car car);
 }

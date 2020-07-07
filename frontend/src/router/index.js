@@ -4,6 +4,9 @@ import VueRouter from "vue-router";
 import Home from "@/components/Home";
 import NotFound from "@/components/NotFound";
 import CarList from "@/components/car/CarList.component";
+import CarDetails from "@/components/car/CarDetails.component";
+import CarCreate from "@/components/car/CarCreate.component";
+import CarUpdate from "@/components/car/CarUpdate.component";
 
 Vue.use(VueRouter);
 
@@ -17,6 +20,21 @@ const routes = [
         path: "/car/list",
         name: "CarList",
         component: CarList
+    },
+    {
+        path: "/car/create",
+        name: "CarCreate",
+        component: CarCreate
+    },
+    {
+        path: "/car/update/:id",
+        name: "CarUpdate",
+        component: CarUpdate
+    },
+    {
+        path: "/car/:id",
+        name: "CarDetails",
+        component: CarDetails
     },
     {
         path: "*",
