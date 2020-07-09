@@ -18,15 +18,18 @@
         <plugins>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <!-- Skip building .jar file for this module (it is pure Vue app) -->
-                <executions>
-                    <execution>
-                        <id>default-jar</id>
-                        <phase>none</phase>
-                    </execution>
-                </executions>
+                <!-- Clean build output -->
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>target</directory>
+                            <includes>
+                                <include>**</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -35,9 +38,10 @@
                 <version>1.10.0</version>
                 <executions>
 
-                    <!-- Install our node and npm version to run npm/node scripts-->
+                    <!-- Install our node and npm version to run npm/node scripts -->
+                    <!-- They will be only installed locally (in node folder) -->
                     <execution>
-                        <id>Install Node and npm</id>
+                        <id>Install node and npm</id>
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>

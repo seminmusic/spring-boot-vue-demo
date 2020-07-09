@@ -9,13 +9,13 @@
 	<groupId>ba.sema</groupId>
 	<artifactId>spring-boot-vue-demo</artifactId>
 	<version>1.0</version>
+	<packaging>pom</packaging>
 	<name>Spring Boot Vue Demo</name>
 	<description>Demo project for Spring Boot and Vue</description>
 
-	<packaging>pom</packaging>
 	<modules>
-		<module>backend</module>
 		<module>frontend</module>
+		<module>backend</module>
 	</modules>
 
 	<parent>
