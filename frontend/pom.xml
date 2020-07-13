@@ -7,10 +7,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>frontend</artifactId>
+    <packaging>jar</packaging>
 
     <parent>
-        <artifactId>spring-boot-vue-demo</artifactId>
         <groupId>ba.sema</groupId>
+        <artifactId>spring-boot-vue-demo</artifactId>
         <version>1.0</version>
     </parent>
 
