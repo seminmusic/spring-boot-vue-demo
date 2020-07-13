@@ -15,6 +15,10 @@
         <version>1.0</version>
     </parent>
 
+    <properties>
+        <jackson-bom.version>2.9.9</jackson-bom.version>
+    </properties>
+
     <dependencies>
 
         <dependency>
