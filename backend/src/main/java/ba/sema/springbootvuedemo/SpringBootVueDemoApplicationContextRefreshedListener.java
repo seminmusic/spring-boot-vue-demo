@@ -16,8 +16,13 @@ public class SpringBootVueDemoApplicationContextRefreshedListener implements App
 {
     private static final Logger logger = LoggerFactory.getLogger(SpringBootVueDemoApplicationContextRefreshedListener.class);
 
+    private final Environment env;
+
     @Autowired
-    private Environment env;
+    public SpringBootVueDemoApplicationContextRefreshedListener(Environment env)
+    {
+        this.env = env;
+    }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event)
