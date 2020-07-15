@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -73,6 +74,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
         };
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception
+    {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception
     {
@@ -92,8 +100,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
             .and()
             .authorizeRequests()
                 .antMatchers("/", "/static/**", "/favicon.ico").permitAll()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/car/**").permitAll()
+                .antMatchers("/api/auth/login").permitAll()
+                //.antMatchers("/api/car/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);

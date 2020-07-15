@@ -40,11 +40,12 @@ public class SecurityUser
     {
     }
 
-    public SecurityUser(String email, String username, String password)
+    public SecurityUser(String email, String username, String password, Set<SecurityRole> roles)
     {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.roles = roles;
     }
     //endregion
 
