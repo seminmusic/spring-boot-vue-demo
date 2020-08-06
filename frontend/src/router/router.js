@@ -35,17 +35,26 @@ const routes = [
     {
         path: "/cars/create",
         name: "CarCreate",
-        component: CarCreate
+        component: CarCreate,
+        meta: {
+            authorize: [Role.ADD]
+        }
     },
     {
         path: "/cars/update/:id",
         name: "CarUpdate",
-        component: CarUpdate
+        component: CarUpdate,
+        meta: {
+            authorize: [Role.EDIT]
+        }
     },
     {
         path: "/cars/:id",
         name: "CarDetails",
-        component: CarDetails
+        component: CarDetails,
+        meta: {
+            authorize: [Role.VIEW]
+        }
     },
     {
         path: "*",

@@ -2,7 +2,7 @@
     <div>
         <b-row class="my-3">
             <b-col md="2" offset-md="10">
-                <router-link :to="{ name: 'CarCreate' }">Add new car</router-link>
+                <router-link :to="{ name: 'CarCreate' }" v-if="userHasAnyRole(Role.ADD)">Add new car</router-link>
             </b-col>
         </b-row>
         <b-row>
@@ -16,7 +16,7 @@
                                 <th>Model</th>
                                 <th>Release year</th>
                                 <th>Last changed</th>
-                                <th>Actions</th>
+                                <th v-if="userHasAnyRole(Role.VIEW, Role.EDIT, Role.DELETE)">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import { AuthService } from "@/services/auth-service";
+import { Role } from "@/models/constants/role-constants";
 import CarListRow from "@/views/car/components/CarListRow.component";
 import CarService from "@/services/car-service";
 
@@ -59,6 +61,7 @@ export default {
     },
     data() {
         return {
+            Role: Role,
             cars: [],
             selectedCar: {},
             alertModalTitle: "",
@@ -69,16 +72,19 @@ export default {
         this.getCars();
     },
     methods: {
+        userHasAnyRole(...roles) {
+            return AuthService.userHasAnyRole(...roles);
+        },
         getCars() {
             CarService.getCars().then(response => {
                 this.cars = response.data;
             });
         },
         carDetails(carId) {
-            this.$router.push({ name: "CarDetails", params: { id: carId } });
+            this.$router.push({ name: "CarDetails", params: { id: carId } }).catch(() => {});
         },
         carEdit(carId) {
-            this.$router.push({ name: "CarUpdate", params: { id: carId } });
+            this.$router.push({ name: "CarUpdate", params: { id: carId } }).catch(() => {});
         },
         carDelete(carId) {
             this.selectedCar = this.cars.find(c => c.id === carId);
