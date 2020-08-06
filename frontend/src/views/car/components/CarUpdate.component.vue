@@ -1,7 +1,7 @@
 <template>
     <b-container fluid>
         <div class="form-wrapper">
-            <b-form @submit.prevent="createCar">
+            <b-form @submit.prevent="updateCar">
                 <b-form-group label-cols="2" breakpoint="md" horizontal label="Manufacturer:" for="manufacturer">
                     <b-col md="5">
                         <b-input id="manufacturer" v-model="formData.manufacturer" maxlength="60" required />
@@ -23,8 +23,8 @@
                     </b-col>
                 </b-form-group>
                 <b-col md="5" offset="4">
-                    <b-button type="submit" variant="info">Save</b-button>
-                    <b-button :to="{ name: 'CarList' }" variant="danger">Cancel</b-button>
+                    <b-button type="submit" variant="info">Update</b-button>
+                    <b-button :to="{ name: 'Cars' }" variant="danger">Cancel</b-button>
                 </b-col>
             </b-form>
         </div>
@@ -43,7 +43,7 @@
 import CarService from "@/services/car.service";
 
 export default {
-    name: "CarCreate",
+    name: "CarUpdate",
     data() {
         return {
             formData: {
@@ -57,14 +57,21 @@ export default {
             isSuccessfully: false
         };
     },
+    created() {
+        CarService.getCar(this.$router.currentRoute.params.id).then(response => {
+            this.formData.manufacturer = response.data.manufacturer;
+            this.formData.model = response.data.model;
+            this.formData.releaseYear = response.data.releaseYear;
+            this.formData.lastChange = response.data.lastChange;
+        });
+    },
     methods: {
-        createCar() {
-            CarService.createCar(this.formData).then(response => {
+        updateCar() {
+            CarService.updateCar(this.$router.currentRoute.params.id, this.formData).then(response => {
                 this.isSuccessfully = true;
                 this.alertModalTitle = "Success";
-                this.alertModalContent = "Successfully created car";
+                this.alertModalContent = "Successfully updated car";
                 this.$refs.alertModal.show();
-                this.formData = { manufacturer: "", model: "", releaseYear: "", lastChange: "" };
             }).catch(error => {
                 this.isSuccessfully = false;
                 this.alertModalTitle = "Error";
@@ -74,7 +81,7 @@ export default {
         },
         onAlertModalOkClick() {
             if (this.isSuccessfully) {
-                this.$router.push({ name: "CarList" });
+                this.$router.push({ name: "Cars" });
             }
         }
     }

@@ -49,11 +49,11 @@
 </template>
 
 <script>
-import CarListRow from "@/components/car/CarListRow.component";
+import CarListRow from "@/views/car/components/CarListRow.component";
 import CarService from "@/services/car.service";
 
 export default {
-    name: "CarList",
+    name: "Cars",
     components: {
         CarListRow
     },

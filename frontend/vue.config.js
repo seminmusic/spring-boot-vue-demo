@@ -1,4 +1,10 @@
 module.exports = {
+    pages: {
+        index: {
+            entry: "src/main.js",
+            title: "Sema Cars Management"
+        }
+    },
     lintOnSave: false,
     outputDir: "target/dist",
     assetsDir: "static",

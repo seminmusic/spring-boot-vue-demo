@@ -3,11 +3,11 @@ package ba.sema.springbootvuedemo.models.authentication;
 import lombok.Data;
 
 @Data
-public class RegisterResponseModel
+public class RegisterUserResponseModel
 {
     private String message;
 
-    public RegisterResponseModel(String message)
+    public RegisterUserResponseModel(String message)
     {
         this.message = message;
     }

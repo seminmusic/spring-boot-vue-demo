@@ -17,8 +17,8 @@ public class JwtUtils
     @Value("${application.settings.jwt.secret-key}")
     private String jwtSecretKey;
 
-    @Value("${application.settings.jwt.expiration-ms}")
-    private int jwtExpirationMilliseconds;
+    @Value("${application.settings.jwt.expiration-sec}")
+    private int jwtExpirationSeconds;
 
     public String generateJwtToken(Authentication authentication)
     {
@@ -27,7 +27,7 @@ public class JwtUtils
         return Jwts.builder()
                    .setSubject(securityUserDetails.getUsername())
                    .setIssuedAt(new Date())
-                   .setExpiration(new Date((new Date()).getTime() + jwtExpirationMilliseconds))
+                   .setExpiration(new Date((new Date()).getTime() + (jwtExpirationSeconds * 1000)))
                    .signWith(SignatureAlgorithm.HS512, jwtSecretKey)
                    .compact();
     }

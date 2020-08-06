@@ -23,6 +23,7 @@ module.exports = {
             "anonymous": "always",
             "named": "never",
             "asyncArrow": "always"
-        }]
+        }],
+        "no-multiple-empty-lines": "off"
     }
 }

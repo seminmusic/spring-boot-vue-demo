@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -72,6 +73,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
                         .allowedMethods(methods);
             }
         };
+    }
+
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults()  // Removes the ROLE_ prefix, when using @PreAuthorize and @PostAuthorize, like: @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    {
+        return new GrantedAuthorityDefaults("");
     }
 
     @Bean

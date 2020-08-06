@@ -4,8 +4,8 @@ import ba.sema.springbootvuedemo.configurations.JwtUtils;
 import ba.sema.springbootvuedemo.configurations.SecurityUserDetails;
 import ba.sema.springbootvuedemo.models.authentication.LoginRequestModel;
 import ba.sema.springbootvuedemo.models.authentication.LoginResponseModel;
-import ba.sema.springbootvuedemo.models.authentication.RegisterRequestModel;
-import ba.sema.springbootvuedemo.models.authentication.RegisterResponseModel;
+import ba.sema.springbootvuedemo.models.authentication.RegisterUserRequestModel;
+import ba.sema.springbootvuedemo.models.authentication.RegisterUserResponseModel;
 import ba.sema.springbootvuedemo.services.SecurityUserRoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,29 +59,30 @@ public class AuthenticationController
         SecurityUserDetails securityUserDetails = (SecurityUserDetails) authentication.getPrincipal();
         List<String> roles = securityUserDetails.getAuthorities().stream().map(GrantedAuthority :: getAuthority).collect(Collectors.toList());
 
+        logger.info(String.format("User %s logged in successfully.", loginRequestModel.getUsername()));
         LoginResponseModel loginResponseModel = new LoginResponseModel(jwt, securityUserDetails.getId(), securityUserDetails.getEmail(), securityUserDetails.getUsername(), roles);
         return ResponseEntity.ok(loginResponseModel);
     }
 
-    @PostMapping("/register")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
-    public ResponseEntity<RegisterResponseModel> register(@Valid @RequestBody RegisterRequestModel registerRequestModel)
+    @PostMapping("/register-user")
+    @PreAuthorize("hasRole(T(ba.sema.springbootvuedemo.enums.RoleEnum).ADMIN)")
+    public ResponseEntity<RegisterUserResponseModel> registerUser(@Valid @RequestBody RegisterUserRequestModel registerUserRequestModel)
     {
-        if (securityUserRoleService.userExistsByUsername(registerRequestModel.getUsername()))
+        if (securityUserRoleService.userExistsByUsername(registerUserRequestModel.getUsername()))
         {
-            return ResponseEntity.badRequest().body(new RegisterResponseModel("Error: Username already exists."));
+            return ResponseEntity.badRequest().body(new RegisterUserResponseModel("Error: Username already exists."));
         }
-        if (securityUserRoleService.userExistsByEmail(registerRequestModel.getEmail()))
+        if (securityUserRoleService.userExistsByEmail(registerUserRequestModel.getEmail()))
         {
-            return ResponseEntity.badRequest().body(new RegisterResponseModel("Error: Email is already in use."));
+            return ResponseEntity.badRequest().body(new RegisterUserResponseModel("Error: Email is already in use."));
         }
 
         securityUserRoleService.createUser(
-            registerRequestModel.getEmail(),
-            registerRequestModel.getUsername(),
-            passwordEncoder.encode(registerRequestModel.getPassword()),
-            registerRequestModel.getRoles()
+            registerUserRequestModel.getEmail(),
+            registerUserRequestModel.getUsername(),
+            passwordEncoder.encode(registerUserRequestModel.getPassword()),
+            registerUserRequestModel.getRoles()
         );
-        return ResponseEntity.ok(new RegisterResponseModel("User registered successfully."));
+        return ResponseEntity.ok(new RegisterUserResponseModel("User registered successfully."));
     }
 }

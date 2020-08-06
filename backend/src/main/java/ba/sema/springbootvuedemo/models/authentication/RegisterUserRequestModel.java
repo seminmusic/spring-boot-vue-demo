@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
-public class RegisterRequestModel
+public class RegisterUserRequestModel
 {
     @NotBlank
     @Size(max = 50)

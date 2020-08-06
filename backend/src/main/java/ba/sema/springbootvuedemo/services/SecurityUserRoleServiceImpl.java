@@ -48,8 +48,8 @@ public class SecurityUserRoleServiceImpl implements SecurityUserRoleService
         Set<SecurityRole> rolesSet = new HashSet<>();
         if (roles == null)
         {
-            SecurityRole userRole = securityRoleRepository.findByName(RoleEnum.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            rolesSet.add(userRole);
+            SecurityRole viewRole = securityRoleRepository.findByName(RoleEnum.VIEW).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            rolesSet.add(viewRole);
         }
         else
         {
