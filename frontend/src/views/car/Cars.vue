@@ -50,7 +50,7 @@
 
 <script>
 import CarListRow from "@/views/car/components/CarListRow.component";
-import CarService from "@/services/car.service";
+import CarService from "@/services/car-service";
 
 export default {
     name: "Cars",

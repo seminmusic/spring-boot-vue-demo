@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { AuthService } from "@/services/auth.service";
+import { AuthService } from "@/services/auth-service";
 
 export default {
     name: "Login",
@@ -55,8 +55,8 @@ export default {
                 console.log("Redirecting after successful login to: " + this.returnUrl);
                 this.$router.push(this.returnUrl).catch(() => {});
             }).catch(error => {
-                console.error("Login error", error.data);
-                this.errorMessage = error.data.message;
+                console.error("Login error", error);
+                this.errorMessage = (error && error.data && error.data.message) ? error.data.message : error;
             }).finally(() => {
                 this.loading = false;
             });

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import CarService from "@/services/car.service";
+import CarService from "@/services/car-service";
 
 export default {
     name: "CarDetails",

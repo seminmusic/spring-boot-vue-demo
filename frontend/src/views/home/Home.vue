@@ -1,7 +1,6 @@
 <template>
     <div class="home">
         <h4 class="text-center m-0">Welcome to Sema Cars Management!</h4>
-        <h5 class="m-0 mt-2">Login to access application.</h5>
     </div>
 </template>
 

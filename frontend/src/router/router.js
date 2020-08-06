@@ -7,8 +7,9 @@ import CarDetails from "@/views/car/components/CarDetails.component";
 import CarCreate from "@/views/car/components/CarCreate.component";
 import CarUpdate from "@/views/car/components/CarUpdate.component";
 import Login from "@/views/login/Login";
-import { AuthService } from "@/services/auth.service";
-import { Role } from "@/models/Role";
+import { AuthService } from "@/services/auth-service";
+import { Role } from "@/models/constants/role-constants";
+
 
 Vue.use(VueRouter);
 
@@ -28,7 +29,7 @@ const routes = [
         name: "Cars",
         component: Cars,
         meta: {
-            authorize: [Role.ADMIN]
+            authorize: [Role.VIEW]
         }
     },
     {

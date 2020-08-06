@@ -15,7 +15,7 @@
 
 <script>
 import Navbar from "@/views/_partials/Navbar";
-import { AuthService } from "@/services/auth.service";
+import { AuthService } from "@/services/auth-service";
 
 export default {
     name: "App",
