@@ -73,10 +73,13 @@ function parseRouteData(query) {
             this.infoMessage = "Please sign-in to access requested page.";
         }
         if (+redirectReasonCode === 2) {
-            this.infoMessage = "Route requires role(s) but current user don't have any role(s).";
+            this.infoMessage = "Your authentication token is expired.";
         }
         if (+redirectReasonCode === 3) {
-            this.infoMessage = "Current user don't have any of route required role(s).";
+            this.infoMessage = "Route requires roles but you don't have any role.";
+        }
+        if (+redirectReasonCode === 4) {
+            this.infoMessage = "You don't have any of route required roles.";
         }
     }
 

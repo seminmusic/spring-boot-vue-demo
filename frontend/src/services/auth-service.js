@@ -33,16 +33,22 @@ function logout() {
     userDataSubject.next(null);
 }
 
-function userAuthenticated() {
+function userHasToken() {
     const token = localStorage.getItem(AppConstants.AUTH_TOKEN_STORAGE_KEY);
-    if (token && !tokenExpired(token)) {
+    return !!token;
+}
+
+function userTokenExpired() {
+    if (!userHasToken()) {
         return true;
     }
-    return false;
+    const token = localStorage.getItem(AppConstants.AUTH_TOKEN_STORAGE_KEY);
+    const expirationDate = getAuthTokenExpirationDate(token);
+    return expirationDate < new Date();
 }
 
 function userData() {
-    if (!userAuthenticated()) {
+    if (!userHasToken() || userTokenExpired()) {
         return null;
     }
     const currentUserData = JSON.parse(localStorage.getItem(AppConstants.AUTH_USER_DATA_STORAGE_KEY));
@@ -68,15 +74,11 @@ function getAuthTokenExpirationDate(token) {
     return date;
 }
 
-function tokenExpired(token) {
-    const expirationDate = getAuthTokenExpirationDate(token);
-    return expirationDate < new Date();
-}
-
 export const AuthService = {
     login,
     logout,
-    userAuthenticated,
+    userHasToken,
+    userTokenExpired,
     userData,
     userHasAnyRole,
     userDataObservable: userDataSubject.asObservable()

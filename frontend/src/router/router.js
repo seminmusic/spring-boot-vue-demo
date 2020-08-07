@@ -85,22 +85,24 @@ router.beforeEach((to, from, next) => {
     const { authorize } = to.meta;
     if (authorize) {
         // Authentication check
-        const userAuthenticated = AuthService.userAuthenticated();
-        if (!userAuthenticated) {
-            // User not logged in - redirect to login page with return URL as query parameter
+        if (!AuthService.userHasToken()) {
+            // User not logged in
             return next({ path: "/login", query: { redirectReasonCode: 1, returnUrl: to.fullPath } });
         }
+        if (AuthService.userTokenExpired()) {
+            // JWT token is expired
+            return next({ path: "/login", query: { redirectReasonCode: 2, returnUrl: to.fullPath } });
+        }
         // Roles check
-        const userData = AuthService.userData();
         if (authorize.length) {
-            const userRoles = userData.roles;
+            const userRoles = AuthService.userData().roles;
             if (!userRoles || !userRoles.length) {
-                // Route requires role(s) but user don't have any role(s)
-                return next({ path: "/login", query: { redirectReasonCode: 2, returnUrl: to.fullPath } });
+                // Route requires roles but user don't have any role
+                return next({ path: "/login", query: { redirectReasonCode: 3, returnUrl: to.fullPath } });
             }
             if (!authorize.some(role => userRoles.includes(role))) {
-                // User don't have any of route required role(s)
-                return next({ path: "/login", query: { redirectReasonCode: 3, returnUrl: to.fullPath } });
+                // User don't have any of route required roles
+                return next({ path: "/login", query: { redirectReasonCode: 4, returnUrl: to.fullPath } });
             }
         }
     }
