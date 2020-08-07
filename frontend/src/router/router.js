@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/home/Home";
 import NotFound from "@/views/_common/NotFound";
-import Cars from "@/views/car/Cars";
 import CarDetails from "@/views/car/components/CarDetails.component";
 import CarCreate from "@/views/car/components/CarCreate.component";
 import CarUpdate from "@/views/car/components/CarUpdate.component";
@@ -27,7 +26,7 @@ const routes = [
     {
         path: "/cars",
         name: "Cars",
-        component: Cars,
+        component: () => import(/* webpackChunkName: "cars-chunk" */ "@/views/car/Cars.vue"),
         meta: {
             authorize: [Role.VIEW]
         }

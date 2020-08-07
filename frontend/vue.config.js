@@ -1,10 +1,4 @@
 module.exports = {
-    pages: {
-        index: {
-            entry: "src/main.js",
-            title: "Sema Cars Management"
-        }
-    },
     lintOnSave: false,
     outputDir: "target/dist",
     assetsDir: "static",
@@ -15,5 +9,13 @@ module.exports = {
     },
     configureWebpack: {
         devtool: "source-map"
+    },
+    chainWebpack: (config) => {
+        // Bez ovoga lazy load chunkova radi tako da nakon inicijalnog loada aplikacije u pozadini browser loada te chunkove,
+        // a kad se posjeti ruta chunk se loada iz cache-a (ne ide na server).
+        // Sa ovim lazy load chunka će se pokrenuti tek u trenutku kad se posjeti ruta.
+        // (ako ima "pages" onda naziv plugina bude nešto kao "<naziv-plugina>-page", mogu se vidjeti nazivi plugina sa: vue inspect --plugins)
+        // config.plugins.delete("prefetch");
+        // config.plugins.delete("prefetch-index");
     }
 };
