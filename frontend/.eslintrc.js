@@ -26,4 +26,4 @@ module.exports = {
         }],
         "no-multiple-empty-lines": "off"
     }
-}
+};

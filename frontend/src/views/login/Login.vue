@@ -1,27 +1,32 @@
 <template>
-    <b-container fluid>
-        <b-row align-h="center">
-            <b-col cols="4">
-                <b-card>
-                    <b-form @submit.prevent="onLoginSubmit">
-                        <b-alert show variant="warning" v-if="infoMessage" class="text-center mb-3">{{ infoMessage }}</b-alert>
-                        <b-form-group label="Username:" for="username">
-                            <b-input id="username" type="text" v-model="loginData.username" required />
-                        </b-form-group>
-                        <b-form-group label="Password:" for="password">
-                            <b-input id="password" type="password" v-model="loginData.password" required />
-                        </b-form-group>
-                        <b-button type="submit" class="login-btn mt-4" block variant="info" :disabled="loading">
-                            <span class="spinner-border spinner-border-sm mr-3" v-show="loading"></span>
-                            <span>{{ loading ? 'Please wait' : 'Login' }}</span>
-                        </b-button>
-                        <div v-if="errorMessage" class="text-center mt-3 text-danger">{{ errorMessage }}</div>
-                    </b-form>
-                </b-card>
-            </b-col>
-        </b-row>
-    </b-container>
+    <v-row align="center" justify="center">
+        <v-col cols="12" sm="8" md="4">
+            <v-card class="elevation-10">
+                <v-form @submit.prevent="onLoginSubmit" autocomplete="off">
+                    <v-toolbar color="primary" dark flat dense rounded="t">
+                        <v-spacer />
+                        <v-toolbar-title>Login</v-toolbar-title>
+                        <v-spacer />
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-alert type="warning" dense v-if="infoMessage">{{ infoMessage }}</v-alert>
+                        <v-alert type="error" dense v-if="errorMessage">{{ errorMessage }}</v-alert>
+                        <v-text-field type="text" label="Username" prepend-icon="mdi-account" v-model="loginData.username" />
+                        <v-text-field type="password" class="fix-border" label="Password" prepend-icon="mdi-lock" v-model="loginData.password" />
+                    </v-card-text>
+                    <v-card-actions class="px-4 pt-0 pb-4">
+                        <v-spacer />
+                        <v-btn type="submit" color="primary" class="btn-loading-with-text" ripple :loading="loading" :disabled="loading">
+                            <v-icon left v-if="!loading">mdi-login-variant</v-icon> {{ loading ? 'Please wait' : 'Login' }}
+                        </v-btn>
+                        <v-spacer />
+                    </v-card-actions>
+                </v-form>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
+
 
 <script>
 import { AuthService } from "@/services/auth-service";
@@ -51,6 +56,7 @@ export default {
     methods: {
         onLoginSubmit() {
             this.loading = true;
+            this.errorMessage = "";
             AuthService.login(this.loginData).then(response => {
                 console.log("Redirecting after successful login to: " + this.returnUrl);
                 this.$router.push(this.returnUrl).catch(() => {});
@@ -88,11 +94,27 @@ function parseRouteData(query) {
 }
 </script>
 
+
 <style scoped>
-.login-btn {
+.btn-loading-with-text {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    text-transform: uppercase;
+}
+.btn-loading-with-text.v-btn--loading /deep/ .v-btn__content {
+    opacity: 1;
+    order: 2;
+}
+.btn-loading-with-text.v-btn--loading /deep/ .v-btn__loader {
+    position: relative;
+    height: auto;
+    order: 1;
+    margin-left: 4px;
+    margin-right: 8px;
+    height: 18px;
+    width: 18px;
+}
+
+.fix-border /deep/ .v-input__control > .v-input__slot:before,
+.fix-border /deep/ .v-input__control > .v-input__slot:after {
+    bottom: 0;
 }
 </style>

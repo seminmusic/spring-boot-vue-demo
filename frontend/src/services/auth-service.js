@@ -33,6 +33,10 @@ function logout() {
     userDataSubject.next(null);
 }
 
+function nextUserData() {
+    userDataSubject.next(userData());
+}
+
 function userHasToken() {
     const token = localStorage.getItem(AppConstants.AUTH_TOKEN_STORAGE_KEY);
     return !!token;
@@ -77,6 +81,7 @@ function getAuthTokenExpirationDate(token) {
 export const AuthService = {
     login,
     logout,
+    nextUserData,
     userHasToken,
     userTokenExpired,
     userData,

@@ -17,5 +17,8 @@ module.exports = {
         // (ako ima "pages" onda naziv plugina bude nešto kao "<naziv-plugina>-page", mogu se vidjeti nazivi plugina sa: vue inspect --plugins)
         // config.plugins.delete("prefetch");
         // config.plugins.delete("prefetch-index");
-    }
+    },
+    transpileDependencies: [
+        "vuetify"
+    ]
 };

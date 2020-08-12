@@ -39,6 +39,7 @@
     </b-container>
 </template>
 
+
 <script>
 import CarService from "@/services/car-service";
 
@@ -87,6 +88,7 @@ export default {
     }
 };
 </script>
+
 
 <style>
 .form-wrapper {

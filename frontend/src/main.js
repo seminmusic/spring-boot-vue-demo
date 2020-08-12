@@ -1,9 +1,9 @@
 import Vue from "vue";
 import App from "@/views/App.vue";
 import router from "@/router/router";
-import BootstrapVue from "bootstrap-vue";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
+import vuetify from "@/plugins/vuetify";
+import "typeface-roboto/index.css";
+import "@mdi/font/css/materialdesignicons.min.css";
 import Axios from "axios";
 import { AppConstants } from "@/models/constants/app-constants";
 
@@ -16,10 +16,9 @@ if (localStorage.getItem(AppConstants.AUTH_TOKEN_STORAGE_KEY)) {
     Axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem(AppConstants.AUTH_TOKEN_STORAGE_KEY)}`;
 }
 
-Vue.use(BootstrapVue);
-
 new Vue({
     router,
+    vuetify,
     render: h => h(App)
 }).$mount("#app");
 

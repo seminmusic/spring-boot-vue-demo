@@ -13,6 +13,7 @@
     </tr>
 </template>
 
+
 <script>
 import { AuthService } from "@/services/auth-service";
 import { Role } from "@/models/constants/role-constants";
@@ -41,6 +42,7 @@ export default {
     }
 };
 </script>
+
 
 <style scoped>
 td button:not(:last-child) {

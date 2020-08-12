@@ -80,6 +80,9 @@ router.beforeEach((to, from, next) => {
     // console.log("to", to);
     // console.log("from", from);
 
+    // Dispatch current user data to observable subscribers
+    AuthService.nextUserData();
+
     // Route access check
     const { authorize } = to.meta;
     if (authorize) {
