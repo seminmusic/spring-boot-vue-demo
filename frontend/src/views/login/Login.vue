@@ -9,10 +9,11 @@
                         <v-spacer />
                     </v-toolbar>
                     <v-card-text>
-                        <v-alert type="warning" dense v-if="infoMessage">{{ infoMessage }}</v-alert>
-                        <v-alert type="error" dense v-if="errorMessage">{{ errorMessage }}</v-alert>
-                        <v-text-field type="text" label="Username" prepend-icon="mdi-account" v-model="loginData.username" />
+                        <v-alert type="warning" icon="mdi-alert-circle" class="alert-icon-center text-caption" dense outlined v-if="infoMessage">{{ infoMessage }}</v-alert>
+                        <v-text-field type="text" class="fix-border" label="Username" prepend-icon="mdi-account" v-model="loginData.username" />
+                        <div style="padding:1px 0"></div>
                         <v-text-field type="password" class="fix-border" label="Password" prepend-icon="mdi-lock" v-model="loginData.password" />
+                        <!-- <v-alert type="error" class="alert-icon-center text-caption mb-0" dense v-if="errorMessage">{{ errorMessage }}</v-alert> -->
                     </v-card-text>
                     <v-card-actions class="px-4 pt-0 pb-4">
                         <v-spacer />
@@ -23,6 +24,7 @@
                     </v-card-actions>
                 </v-form>
             </v-card>
+            <v-snackbar app v-model="errorSnackbar" top color="error" class="error-snackbar" transition="slide-y-transition">{{ errorMessage }}</v-snackbar>
         </v-col>
     </v-row>
 </template>
@@ -30,6 +32,7 @@
 
 <script>
 import { AuthService } from "@/services/auth-service";
+import { UtilityHelper } from "@/helpers/utility-helper";
 
 export default {
     name: "Login",
@@ -40,6 +43,7 @@ export default {
                 password: ""
             },
             infoMessage: "",
+            errorSnackbar: false,
             errorMessage: "",
             returnUrl: "",
             loading: false
@@ -56,13 +60,14 @@ export default {
     methods: {
         onLoginSubmit() {
             this.loading = true;
-            this.errorMessage = "";
+            this.errorSnackbar = false;
             AuthService.login(this.loginData).then(response => {
                 console.log("Redirecting after successful login to: " + this.returnUrl);
                 this.$router.push(this.returnUrl).catch(() => {});
             }).catch(error => {
                 console.error("Login error", error);
                 this.errorMessage = (error && error.data && error.data.message) ? error.data.message : error;
+                this.errorSnackbar = true;
             }).finally(() => {
                 this.loading = false;
             });
@@ -72,6 +77,12 @@ export default {
 
 // Private functions
 function parseRouteData(query) {
+    if (UtilityHelper.isEmptyObject(query)) {
+        this.infoMessage = "";
+        this.returnUrl = "/";
+        return;
+    }
+
     // Set redirect reason message
     const redirectReasonCode = query.redirectReasonCode;
     if (redirectReasonCode) {
@@ -113,8 +124,15 @@ function parseRouteData(query) {
     width: 18px;
 }
 
-.fix-border /deep/ .v-input__control > .v-input__slot:before,
+/* .fix-border /deep/ .v-input__control > .v-input__slot:before,
 .fix-border /deep/ .v-input__control > .v-input__slot:after {
-    bottom: 0;
+    bottom: -2px;
+} */
+
+.alert-icon-center /deep/ .v-icon {
+    align-self: center;
+}
+.error-snackbar /deep/ .v-snack__wrapper {
+    margin-top: 24px !important;
 }
 </style>

@@ -50,7 +50,7 @@
             </v-btn>
         </v-app-bar>
         <v-main>
-            <v-container fluid>
+            <v-container fluid :class="{'content-center': contentCenter}">
                 <router-view />
             </v-container>
         </v-main>
@@ -67,6 +67,7 @@ export default {
     data() {
         return {
             navigationDrawer: null,
+            contentCenter: false,
             Role: Role,
             currentUser: null
         };
@@ -75,9 +76,15 @@ export default {
         this.userDataSubscription = AuthService.userDataObservable.subscribe(u => {
             this.currentUser = u;
         });
+        handleRoute.call(this, this.$route);
     },
     beforeDestroy() {
         this.userDataSubscription.unsubscribe();
+    },
+    watch: {
+        $route(to, from) {
+            handleRoute.call(this, to);
+        }
     },
     methods: {
         userHasAnyRole(...roles) {
@@ -89,6 +96,13 @@ export default {
         }
     }
 };
+
+// Private functions
+function handleRoute(route) {
+    if (route.meta && route.meta.contentCenter) {
+        this.contentCenter = true;
+    }
+}
 </script>
 
 
@@ -162,5 +176,11 @@ export default {
 }
 .app-bar-btn-icon-text.theme--dark.v-btn.v-btn--outlined.v-btn--text {
     border-color: rgba(255, 255, 255, 0.3);
+}
+.content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 </style>

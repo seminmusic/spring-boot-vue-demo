@@ -16,12 +16,18 @@ const routes = [
     {
         path: "/",
         name: "Home",
-        component: Home
+        component: Home,
+        meta: {
+            contentCenter: true
+        }
     },
     {
         path: "/login",
         name: "Login",
-        component: Login
+        component: Login,
+        meta: {
+            contentCenter: true
+        }
     },
     {
         path: "/cars",
@@ -58,7 +64,10 @@ const routes = [
     {
         path: "*",
         name: "NotFound",
-        component: NotFound
+        component: NotFound,
+        meta: {
+            contentCenter: true
+        }
     }
     // {
     //     path: "/about",
