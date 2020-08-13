@@ -2,7 +2,7 @@
     <v-row align="center" justify="center">
         <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-10">
-                <v-form @submit.prevent="onLoginSubmit" autocomplete="off">
+                <v-form ref="loginForm" @submit.prevent="onLoginSubmit" autocomplete="off">
                     <v-toolbar color="primary" dark flat dense rounded="t">
                         <v-spacer />
                         <v-toolbar-title>Login</v-toolbar-title>
@@ -10,9 +10,11 @@
                     </v-toolbar>
                     <v-card-text>
                         <v-alert type="warning" icon="mdi-alert-circle" class="alert-icon-center text-caption" dense outlined v-if="infoMessage">{{ infoMessage }}</v-alert>
-                        <v-text-field type="text" class="fix-border" label="Username" prepend-icon="mdi-account" v-model="loginData.username" />
+                        <v-text-field type="text" class="fix-border" label="Username" prepend-icon="mdi-account"
+                            v-model="loginData.username" :rules="loginData.usernameRules" />
                         <div style="padding:1px 0"></div>
-                        <v-text-field type="password" class="fix-border" label="Password" prepend-icon="mdi-lock" v-model="loginData.password" />
+                        <v-text-field :type="showPassword ? 'text' : 'password'" class="fix-border" label="Password" prepend-icon="mdi-lock" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append="showPassword = !showPassword"
+                            v-model="loginData.password" :rules="loginData.passwordRules" />
                         <!-- <v-alert type="error" class="alert-icon-center text-caption mb-0" dense v-if="errorMessage">{{ errorMessage }}</v-alert> -->
                     </v-card-text>
                     <v-card-actions class="px-4 pt-0 pb-4">
@@ -40,8 +42,15 @@ export default {
         return {
             loginData: {
                 username: "",
-                password: ""
+                usernameRules: [
+                    v => !!v || "Username is required"
+                ],
+                password: "",
+                passwordRules: [
+                    v => !!v || "Password is required"
+                ]
             },
+            showPassword: false,
             infoMessage: "",
             errorSnackbar: false,
             errorMessage: "",
@@ -59,6 +68,10 @@ export default {
     },
     methods: {
         onLoginSubmit() {
+            if (!this.$refs.loginForm.validate()) {
+                return;
+            }
+
             this.loading = true;
             this.errorSnackbar = false;
             AuthService.login(this.loginData).then(response => {
