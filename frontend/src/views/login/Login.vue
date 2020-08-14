@@ -1,6 +1,6 @@
 <template>
     <v-row align="center" justify="center">
-        <v-col cols="12" sm="8" md="4">
+        <v-col cols="10" sm="8" md="4">
             <v-card class="elevation-10">
                 <v-form ref="loginForm" @submit.prevent="onLoginSubmit" autocomplete="off">
                     <v-toolbar color="primary" dark flat dense rounded="t">
@@ -19,7 +19,7 @@
                     </v-card-text>
                     <v-card-actions class="px-4 pt-0 pb-4">
                         <v-spacer />
-                        <v-btn type="submit" color="primary" class="btn-loading-with-text" ripple :loading="loading" :disabled="loading">
+                        <v-btn type="submit" color="primary" block class="btn-loading-with-text" ripple :loading="loading" :disabled="loading">
                             <v-icon left v-if="!loading">mdi-login-variant</v-icon> {{ loading ? 'Please wait' : 'Login' }}
                         </v-btn>
                         <v-spacer />
@@ -126,6 +126,7 @@ function parseRouteData(query) {
 .btn-loading-with-text.v-btn--loading /deep/ .v-btn__content {
     opacity: 1;
     order: 2;
+    flex: initial;
 }
 .btn-loading-with-text.v-btn--loading /deep/ .v-btn__loader {
     position: relative;

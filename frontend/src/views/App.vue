@@ -99,9 +99,7 @@ export default {
 
 // Private functions
 function handleRoute(route) {
-    if (route.meta && route.meta.contentCenter) {
-        this.contentCenter = true;
-    }
+    this.contentCenter = route.meta && route.meta.contentCenter;
 }
 </script>
 
