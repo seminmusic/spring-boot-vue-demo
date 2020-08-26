@@ -3,8 +3,6 @@ import VueRouter from "vue-router";
 import Home from "@/views/home/Home";
 import NotFound from "@/views/_common/NotFound";
 import CarDetails from "@/views/car/components/CarDetails.component";
-import CarCreate from "@/views/car/components/CarCreate.component";
-import CarUpdate from "@/views/car/components/CarUpdate.component";
 import Login from "@/views/login/Login";
 import { AuthService } from "@/services/auth-service";
 import { Role } from "@/models/constants/role-constants";
@@ -38,22 +36,6 @@ const routes = [
         }
     },
     {
-        path: "/cars/create",
-        name: "CarCreate",
-        component: CarCreate,
-        meta: {
-            authorize: [Role.ADD]
-        }
-    },
-    {
-        path: "/cars/update/:id",
-        name: "CarUpdate",
-        component: CarUpdate,
-        meta: {
-            authorize: [Role.EDIT]
-        }
-    },
-    {
         path: "/cars/:id",
         name: "CarDetails",
         component: CarDetails,
@@ -69,14 +51,6 @@ const routes = [
             contentCenter: true
         }
     }
-    // {
-    //     path: "/about",
-    //     name: "About",
-    //     // route level code-splitting
-    //     // this generates a separate chunk (about.[hash].js) for this route
-    //     // which is lazy-loaded when the route is visited.
-    //     component: () => import(/* webpackChunkName: "about" */ "../views/About.vue")
-    // }
 ];
 
 const router = new VueRouter({
@@ -86,9 +60,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    // console.log("to", to);
-    // console.log("from", from);
-
     // Dispatch current user data to observable subscribers
     AuthService.nextUserData();
 

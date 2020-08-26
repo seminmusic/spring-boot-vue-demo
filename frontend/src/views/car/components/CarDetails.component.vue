@@ -1,15 +1,6 @@
 <template>
     <div>
-        <div class="well">
-            <div class="row">
-                <div class="col-md-3">
-                    <strong>Manufacturer</strong>
-                </div>
-                <div class="col-md-3">
-                    {{ car.manufacturer }}
-                </div>
-            </div>
-        </div>
+        <strong>Manufacturer:</strong> {{ car.manufacturer }}
     </div>
 </template>
 
